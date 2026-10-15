@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solicita una propuesta | TrackFlow</title>
+  <meta name="description" content="Cuéntanos sobre tu marca de e-commerce y recibe una propuesta logística de TrackFlow para Estados Unidos y España.">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <!-- defer: el script se ejecuta cuando el HTML ya cargó, así encuentra el formulario -->
+  <script src="validation.js" defer></script>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+  <header class="border-b border-slate-200 bg-white">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+      <a href="index.html" class="flex items-center gap-2 text-xl font-bold text-teal-800">
+        <img src="assets/logo.svg" alt="Logotipo de TrackFlow: camión de reparto blanco sobre fondo verde" width="40" height="40">
+        TrackFlow
+      </a>
+      <nav aria-label="Navegación principal">
+        <a href="index.html" class="text-sm font-medium hover:text-teal-700">← Volver al inicio</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-3xl px-4 py-10">
+    <h1 class="text-2xl font-bold text-slate-900 sm:text-3xl">Solicita una propuesta</h1>
+    <p class="mt-2 text-slate-600">Completa el formulario y nuestro equipo comercial te contactará. Los campos marcados con <span aria-hidden="true">*</span><span class="sr-only">asterisco</span> son obligatorios.</p>
+
+    <!-- Mensaje de éxito: oculto hasta que el envío sea válido. role="status" lo anuncia al lector de pantalla -->
+    <p id="form-success" role="status" tabindex="-1" class="mt-6 hidden rounded-lg bg-emerald-50 p-4 font-medium text-emerald-800 ring-1 ring-emerald-200">
+      ¡Gracias! Recibimos tu solicitud. Te contactaremos en un plazo de 2 días hábiles.
+    </p>
+
+    <!-- novalidate: desactiva los mensajes del navegador para usar los nuestros (validation.js) -->
+    <form id="proposal-form" class="mt-6 space-y-8" novalidate>
+
+      <!-- ===== 1. Tu empresa ===== -->
+      <fieldset class="space-y-4 rounded-xl bg-white p-6 shadow-sm">
+        <legend class="px-1 text-lg font-semibold text-slate-900">Tu empresa</legend>
+
+        <div>
+          <label for="brandName" class="block text-sm font-medium">Nombre de la marca *</label>
+          <input id="brandName" name="brandName" type="text" required autocomplete="organization"
+                 aria-describedby="brandName-error"
+                 class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-2 focus:outline-teal-600 aria-[invalid=true]:border-red-500">
+          <p id="brandName-error" class="mt-1 text-sm text-red-700" aria-live="polite"></p>
+        </div>
+
+        <div>
+          <label for="website" class="block text-sm font-medium">Sitio web de tu tienda *</label>
+          <input id="website" name="website" type="url" required placeholder="https://mitienda.com" autocomplete="url"
+                 aria-describedby="website-error"
+                 class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-2 focus:outline-teal-600 aria-[invalid=true]:border-red-500">
+          <p id="website-error" class="mt-1 text-sm text-red-700" aria-live="polite"></p>
+        </div>
+
+        <div>
+          <label for="country" class="block text-sm font-medium">País donde vendes *</label>
+          <select id="country" name="country" required aria-describedby="country-error"
+                  class="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 focus:outline-2 focus:outline-teal-600 aria-[invalid=true]:border-red-500">
+            <option value="">Selecciona una opción</option>
+            <option value="US">Estados Unidos</option>
+            <option value="ES">España</option>
+            <option value="BOTH">Ambos</option>
+          </select>
+          <p id="country-error" class="mt-1 text-sm text-red-700" aria-live="polite"></p>
+        </div>
+      </fieldset>
+
+      <!-- ===== 2. Datos de contacto ===== -->
+      <fieldset class="space-y-4 rounded-xl bg-white p-6 shadow-sm">
+        <legend class="px-1 text-lg font-semibold text-slate-900">Datos de contacto</legend>
+
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label for="contactName" class="block text-sm font-medium">Nombre y apellido *</label>
+            <input id="contactName" name="contactName" type="text" required autocomplete="name"
+                   aria-describedby="contactName-error"
+                   class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-2 focus:outline-teal-600 aria-[invalid=true]:border-red-500">
+            <p id="contactName-error" class="mt-1 text-sm text-red-700" aria-live="polite"></p>
+          </div>
+          <div>
+            <label for="contactRole" class="block text-sm font-medium">Cargo *</label>
+            <input id="contactRole" name="contactRole" type="text" required autocomplete="organization-title"
+                   aria-describedby="contactRole-error"
+                   class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-2 focus:outline-teal-600 aria-[invalid=true]:border-red-500">
+            <p id="contactRole-error" class="mt-1 text-sm text-red-700" aria-live="polite"></p>
+          </div>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label for="email" class="block text-sm font-medium">Email corporativo *</label>
+            <input id="email" name="email" type="email" required autocomplete="email"
+                   aria-describedby="email-error"
+                   class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-2 focus:outline-teal-600 aria-[invalid=true]:border-red-500">
+            <p id="email-error" class="mt-1 text-sm text-red-700" aria-live="polite"></p>
+          </div>
+          <div>
+            <label for="phone" class="block text-sm font-medium">Teléfono *</label>
+            <input id="phone" name="phone" type="tel" required autocomplete="tel" placeholder="+34 612 345 678"
+                   aria-describedby="phone-hint phone-error"
+                   class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-2 focus:outline-teal-600 aria-[invalid=true]:border-red-500">
+            <p id="phone-hint" class="mt-1 text-xs text-slate-500">Con prefijo: +1 (EE. UU.) o +34 (España).</p>
+            <p id="phone-error" class="mt-1 text-sm text-red-700" aria-live="polite"></p>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- ===== 3. Tu operación ===== -->
+      <fieldset class="space-y-4 rounded-xl bg-white p-6 shadow-sm">
+        <legend class="px-1 text-lg font-semibold text-slate-900">Tu operación</legend>
+
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label for="monthlyOrders" class="block text-sm font-medium">Pedidos al mes *</label>
+            <input id="monthlyOrders" name="monthlyOrders" type="number" required min="100" step="1"
+                   aria-describedby="monthlyOrders-hint monthlyOrders-error"
+                   class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-2 focus:outline-teal-600 aria-[invalid=true]:border-red-500">
+            <p id="monthlyOrders-hint" class="mt-1 text-xs text-slate-500">Trabajamos con marcas desde 100 pedidos mensuales.</p>
+            <p id="monthlyOrders-error" class="mt-1 text-sm text-red-700" aria-live="polite"></p>
+          </div>
+          <div>
+            <label for="returnRate" class="block text-sm font-medium">Tasa de devoluciones estimada (%) *</label>
+            <input id="returnRate" name="returnRate" type="number" required min="0" max="100" step="0.1"
+                   aria-describedby="returnRate-error"
+                   class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-2 focus:outline-teal-600 aria-[invalid=true]:border-red-500">
+            <p id="returnRate-error" class="mt-1 text-sm text-red-700" aria-live="polite"></p>
+          </div>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label for="warehouse" class="block text-sm font-medium">Almacén preferido *</label>
+            <select id="warehouse" name="warehouse" required aria-describedby="warehouse-error"
+                    class="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 focus:outline-2 focus:outline-teal-600 aria-[invalid=true]:border-red-500">
+              <option value="">Selecciona una opción</option>
+              <option value="LAX">Los Ángeles</option>
+              <option value="ZAZ">Zaragoza</option>
+              <option value="BOTH">Ambos</option>
+            </select>
+            <p id="warehouse-error" class="mt-1 text-sm text-red-700" aria-live="polite"></p>
+          </div>
+          <div>
+            <label for="startDate" class="block text-sm font-medium">Fecha de inicio deseada *</label>
+            <input id="startDate" name="startDate" type="date" required
+                   aria-describedby="startDate-error"
+                   class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-2 focus:outline-teal-600 aria-[invalid=true]:border-red-500">
+            <p id="startDate-error" class="mt-1 text-sm text-red-700" aria-live="polite"></p>
+          </div>
+        </div>
+
+        <!-- Grupo de checkboxes: el fieldset anidado agrupa las opciones bajo una misma pregunta -->
+        <fieldset aria-describedby="services-error">
+          <legend class="text-sm font-medium">Servicios que necesitas (al menos uno) *</legend>
+          <div class="mt-2 grid gap-2 sm:grid-cols-2">
+            <label class="flex items-center gap-2"><input type="checkbox" name="services" value="storage" class="size-4 accent-teal-700"> Almacenaje</label>
+            <label class="flex items-center gap-2"><input type="checkbox" name="services" value="fulfillment" class="size-4 accent-teal-700"> Preparación de pedidos</label>
+            <label class="flex items-center gap-2"><input type="checkbox" name="services" value="last-mile" class="size-4 accent-teal-700"> Última milla</label>
+            <label class="flex items-center gap-2"><input type="checkbox" name="services" value="returns" class="size-4 accent-teal-700"> Devoluciones</label>
+          </div>
+          <p id="services-error" class="mt-1 text-sm text-red-700" aria-live="polite"></p>
+        </fieldset>
+      </fieldset>
+
+      <!-- ===== 4. Mensaje ===== -->
+      <fieldset class="rounded-xl bg-white p-6 shadow-sm">
+        <legend class="px-1 text-lg font-semibold text-slate-900">Mensaje</legend>
+        <label for="message" class="block text-sm font-medium">Cuéntanos algo más (opcional)</label>
+        <textarea id="message" name="message" rows="4" maxlength="500"
+                  aria-describedby="message-hint message-error"
+                  class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 focus:outline-2 focus:outline-teal-600 aria-[invalid=true]:border-red-500"></textarea>
+        <p id="message-hint" class="mt-1 text-xs text-slate-500">Máximo 500 caracteres.</p>
+        <p id="message-error" class="mt-1 text-sm text-red-700" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="flex flex-col gap-3 sm:flex-row">
+        <button type="submit" class="rounded-lg bg-teal-700 px-6 py-3 font-semibold text-white hover:bg-teal-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700">Enviar solicitud</button>
+        <button type="reset" class="rounded-lg border border-slate-300 bg-white px-6 py-3 font-semibold hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700">Limpiar formulario</button>
+      </div>
+    </form>
+  </main>
+
+  <footer class="mt-10 bg-slate-900 py-6 text-center text-sm text-slate-300">
+    <p>© 2026 TrackFlow · <a href="mailto:comercial@trackflow.example" class="hover:text-white">comercial@trackflow.example</a></p>
+  </footer>
+</body>
+</html>
