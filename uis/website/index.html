@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrackFlow | Logística e-commerce en Estados Unidos y España</title>
+  <meta name="description" content="TrackFlow almacena, prepara, envía y gestiona las devoluciones de los pedidos de tu marca de e-commerce en Estados Unidos y España desde 2009.">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- Schema.org: describe a la empresa para buscadores -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "TrackFlow",
+    "description": "Logística de última milla y gestión de almacenes para marcas de e-commerce en Estados Unidos y España.",
+    "foundingDate": "2009",
+    "numberOfEmployees": { "@type": "QuantitativeValue", "value": 130 },
+    "areaServed": ["US", "ES"],
+    "email": "comercial@trackflow.example",
+    "location": [
+      { "@type": "Place", "name": "Almacén Los Ángeles", "address": { "@type": "PostalAddress", "addressLocality": "Los Ángeles", "addressCountry": "US" } },
+      { "@type": "Place", "name": "Almacén Zaragoza", "address": { "@type": "PostalAddress", "addressLocality": "Zaragoza", "addressCountry": "ES" } }
+    ]
+  }
+  </script>
+</head>
+<body class="bg-white text-slate-800">
+
+  <header class="border-b border-slate-200">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4">
+      <a href="index.html" class="flex items-center gap-2 text-xl font-bold text-teal-800">
+        <img src="assets/logo.svg" alt="Logotipo de TrackFlow: camión de reparto blanco sobre fondo verde" width="40" height="40">
+        TrackFlow
+      </a>
+      <nav aria-label="Navegación principal">
+        <ul class="flex flex-wrap items-center gap-4 text-sm font-medium">
+          <li><a href="#servicios" class="hover:text-teal-700">Servicios</a></li>
+          <li><a href="#ventajas" class="hover:text-teal-700">Ventajas</a></li>
+          <li><a href="#contacto" class="hover:text-teal-700">Contacto</a></li>
+          <li><a href="application.html" class="rounded-lg bg-teal-700 px-4 py-2 text-white hover:bg-teal-800">Solicitar propuesta</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="bg-teal-50" aria-labelledby="titulo-hero">
+      <div class="mx-auto grid max-w-6xl items-center gap-8 px-4 py-12 md:grid-cols-2 lg:py-20">
+        <div>
+          <h1 id="titulo-hero" class="text-3xl font-bold text-slate-900 sm:text-4xl lg:text-5xl">Tu logística de e-commerce, de la estantería a la puerta del cliente</h1>
+          <p class="mt-4 text-lg text-slate-700">TrackFlow almacena tu inventario, prepara tus pedidos, los entrega con la mejor red de transportistas y gestiona tus devoluciones en Estados Unidos y España.</p>
+          <a href="application.html" class="mt-6 inline-block rounded-lg bg-teal-700 px-6 py-3 font-semibold text-white hover:bg-teal-800">Solicita una propuesta</a>
+        </div>
+        <img src="assets/hero.svg" alt="Ilustración de un almacén con cajas y un camión de reparto siguiendo una ruta de entrega" width="400" height="300" class="w-full max-w-md justify-self-center">
+      </div>
+    </section>
+
+    <!-- Servicios -->
+    <section id="servicios" class="mx-auto max-w-6xl px-4 py-12" aria-labelledby="titulo-servicios">
+      <h2 id="titulo-servicios" class="text-2xl font-bold text-slate-900 sm:text-3xl">Servicios</h2>
+      <p class="mt-2 text-slate-600">Toda tu operación logística en un solo socio.</p>
+      <ul class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <li>
+          <article class="h-full rounded-xl border border-slate-200 p-6">
+            <h3 class="font-semibold text-slate-900">Almacenaje</h3>
+            <p class="mt-2 text-sm text-slate-600">Guardamos tu inventario en nuestros almacenes de Los Ángeles y Zaragoza.</p>
+          </article>
+        </li>
+        <li>
+          <article class="h-full rounded-xl border border-slate-200 p-6">
+            <h3 class="font-semibold text-slate-900">Preparación de pedidos</h3>
+            <p class="mt-2 text-sm text-slate-600">Recogemos, empaquetamos y dejamos listo cada pedido el mismo día.</p>
+          </article>
+        </li>
+        <li>
+          <article class="h-full rounded-xl border border-slate-200 p-6">
+            <h3 class="font-semibold text-slate-900">Última milla</h3>
+            <p class="mt-2 text-sm text-slate-600">Entregamos con 8 transportistas, entre ellos UPS, FedEx, DHL, MRW y SEUR.</p>
+          </article>
+        </li>
+        <li>
+          <article class="h-full rounded-xl border border-slate-200 p-6">
+            <h3 class="font-semibold text-slate-900">Devoluciones</h3>
+            <p class="mt-2 text-sm text-slate-600">Gestionamos la recogida, revisión y reingreso de los productos devueltos.</p>
+          </article>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Ventajas / experiencia -->
+    <section id="ventajas" class="bg-slate-50" aria-labelledby="titulo-ventajas">
+      <div class="mx-auto max-w-6xl px-4 py-12">
+        <h2 id="titulo-ventajas" class="text-2xl font-bold text-slate-900 sm:text-3xl">Por qué TrackFlow</h2>
+        <dl class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div class="rounded-xl bg-white p-6 shadow-sm">
+            <dt class="text-sm text-slate-600">Experiencia</dt>
+            <dd class="mt-1 text-3xl font-bold text-teal-800">Desde 2009</dd>
+          </div>
+          <div class="rounded-xl bg-white p-6 shadow-sm">
+            <dt class="text-sm text-slate-600">Mercados</dt>
+            <dd class="mt-1 text-3xl font-bold text-teal-800">EE. UU. y España</dd>
+          </div>
+          <div class="rounded-xl bg-white p-6 shadow-sm">
+            <dt class="text-sm text-slate-600">Almacenes propios</dt>
+            <dd class="mt-1 text-3xl font-bold text-teal-800">2</dd>
+          </div>
+          <div class="rounded-xl bg-white p-6 shadow-sm">
+            <dt class="text-sm text-slate-600">Transportistas</dt>
+            <dd class="mt-1 text-3xl font-bold text-teal-800">8</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Llamado a la acción -->
+    <section class="mx-auto max-w-6xl px-4 py-12 text-center" aria-labelledby="titulo-cta">
+      <h2 id="titulo-cta" class="text-2xl font-bold text-slate-900 sm:text-3xl">¿Vendes online en Estados Unidos o España?</h2>
+      <p class="mt-2 text-slate-600">Cuéntanos sobre tu operación y te enviamos una propuesta a medida.</p>
+      <a href="application.html" class="mt-6 inline-block rounded-lg bg-teal-700 px-6 py-3 font-semibold text-white hover:bg-teal-800">Solicitar propuesta</a>
+    </section>
+  </main>
+
+  <footer id="contacto" class="bg-slate-900 text-slate-300">
+    <div class="mx-auto grid max-w-6xl gap-6 px-4 py-10 sm:grid-cols-3">
+      <div>
+        <p class="font-bold text-white">TrackFlow</p>
+        <p class="mt-2 text-sm">Logística e-commerce desde 2009.</p>
+      </div>
+      <address class="text-sm not-italic">
+        <p class="font-semibold text-white">Contacto comercial</p>
+        <a href="mailto:comercial@trackflow.example" class="hover:text-white">comercial@trackflow.example</a>
+      </address>
+      <div class="text-sm">
+        <p class="font-semibold text-white">Almacenes</p>
+        <p>Los Ángeles, Estados Unidos</p>
+        <p>Zaragoza, España</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
