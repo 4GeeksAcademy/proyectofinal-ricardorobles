@@ -136,6 +136,27 @@ fields.forEach((field) => {
   });
 });
 
+// ---------- Contador de comentarios ----------
+const commentsField = document.getElementById('comments');
+const commentsCounter = document.getElementById('comments-counter');
+
+commentsField.addEventListener('input', () => {
+  const remaining = 500 - commentsField.value.length;
+  commentsCounter.textContent = `Quedan ${remaining} caracteres`;
+});
+
+// ---------- Advertencia de volumen bajo ----------
+const volumeField = document.getElementById('volume');
+const volumeWarning = document.getElementById('volume-warning');
+
+volumeField.addEventListener('change', () => {
+  if (volumeField.value === 'low') {
+    volumeWarning.classList.remove('hidden');
+  } else {
+    volumeWarning.classList.add('hidden');
+  }
+});
+
 // ---------- Envío ----------
 
 form.addEventListener('submit', (event) => {
@@ -151,7 +172,6 @@ form.addEventListener('submit', (event) => {
   if (!validatePrivacy()) isValid = false;
 
   if (!isValid) {
-    // Lleva el foco al primer campo con error (accesibilidad por teclado)
     form.querySelector('[aria-invalid="true"]')?.focus();
     return;
   }
