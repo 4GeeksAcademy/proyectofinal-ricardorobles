@@ -1,13 +1,13 @@
 # TrackFlow — Sitio web público (Hito 1)
 
-Primera presencia web de TrackFlow: una landing page y un formulario de **solicitud de propuesta comercial** para marcas de e-commerce que quieren tercerizar su logística en Estados Unidos y/o España.
+Primera presencia web de TrackFlow: una landing page y un formulario de **solicitud de información** para marcas de e-commerce que quieren tercerizar su logística en Estados Unidos y/o España.
 
 ## Archivos
 
 | Archivo | Qué contiene |
 |---|---|
-| `index.html` | Landing: header y navegación, hero, servicios, ventajas, llamado a la acción y footer de contacto |
-| `application.html` | Formulario de solicitud de propuesta |
+| `index.html` | Landing: header, hero, servicios, cobertura, por qué TrackFlow, contacto y footer |
+| `application.html` | Formulario de solicitud de información |
 | `validation.js` | Validación en tiempo real y al enviar |
 | `assets/` | Logotipo e ilustración del hero (SVG) |
 
@@ -25,22 +25,21 @@ Abre http://localhost:3000
 
 ## Campos del formulario
 
-Derivados de `CONTEXT.md`: TrackFlow opera en EE. UU. y España, con almacenes en Los Ángeles y Zaragoza, y ofrece almacenaje, preparación de pedidos, última milla y devoluciones.
+Definidos en `01-web-fundamentals/trackflow-BRIEFING.md`.
 
-| Fieldset | ID / name | Tipo | Regla |
+| ID / name | Tipo | Regla | Obligatorio |
 |---|---|---|---|
-| Tu empresa | `brandName` | text | Obligatorio |
-| | `website` | url | Obligatorio, empieza con `http://` o `https://` |
-| | `country` | select (`US`, `ES`, `BOTH`) | Obligatorio |
-| Datos de contacto | `contactName` | text | Obligatorio, mínimo 3 caracteres |
-| | `contactRole` | text | Obligatorio |
-| | `email` | email | Obligatorio, formato válido |
-| | `phone` | tel | Obligatorio. `US`: `+1` + 10 dígitos · `ES`: `+34` + 9 dígitos que empiezan por 6–9 · `BOTH`: cualquiera de los dos |
-| Tu operación | `monthlyOrders` | number | Obligatorio, entero, mínimo 100 pedidos/mes |
-| | `returnRate` | number | Obligatorio, entre 0 y 100 (%) |
-| | `warehouse` | select (`LAX`, `ZAZ`, `BOTH`) | Obligatorio |
-| | `startDate` | date | Obligatoria, posterior a hoy |
-| | `services` | checkbox (`storage`, `fulfillment`, `last-mile`, `returns`) | Al menos uno |
-| Mensaje | `message` | textarea | Opcional, máximo 500 caracteres |
+| `companyName` | text | Mínimo 2 caracteres | Sí |
+| `contactPerson` | text | Al menos 2 palabras (nombre y apellido) | Sí |
+| `email` | email | Formato válido (`@` y dominio) | Sí |
+| `phone` | tel | Empieza con `+` y código de país | Sí |
+| `website` | url | Si se completa, empieza con `http://` o `https://` | No |
+| `country` | select (`US`, `ES`, `BOTH`, `OTHER`) | Elegir una opción | Sí |
+| `productType` | select (`fashion`, `electronics`, `cosmetics`, `food`, `other`) | Elegir una opción | Sí |
+| `shippingVolume` | select (`0-100`, `101-500`, `501-2000`, `2000+`, `unsure`) | Elegir una opción. Con `0-100` se muestra una advertencia (no bloquea) | Sí |
+| `services` | checkbox (`warehousing`, `last-mile`, `reverse-logistics`) | Al menos uno | Sí |
+| `currentProvider` | radio (`yes`, `no`, `evaluating`) | Elegir una opción | Sí |
+| `comments` | textarea | Máximo 500 caracteres, con contador visible | No |
+| `privacy` | checkbox | Debe estar marcado | Sí |
 
-El envío es simulado: no hay backend, así que con datos válidos se muestra un mensaje de éxito.
+El envío es simulado: no hay backend, así que con datos válidos se muestra el mensaje de éxito.
