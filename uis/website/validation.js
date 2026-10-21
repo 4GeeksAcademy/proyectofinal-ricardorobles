@@ -45,32 +45,65 @@ const validators = {
     return '';
   },
 
-  // ✏️ TODO 1 — brandName: obligatorio.
-  //    Pista: igual que contactRole.
+  brandName: (value) => {
+    if (value.trim() === '') return 'Indica el nombre de tu marca.';
+    return '';
+  },
 
-  // ✏️ TODO 2 — website: obligatorio y debe empezar con http:// o https://
-  //    Pista: value.startsWith('https://')
+  website: (value) => {
+    if (value.trim() === '') return 'Indica la URL de tu sitio web.';
+    if (!value.startsWith('http://') && !value.startsWith('https://')) return 'La URL debe empezar con http:// o https://';
+    return '';
+  },
 
-  // ✏️ TODO 3 — country: debe elegir una opción (el value vacío "" no vale).
+  country: (value) => {
+    if (value.trim() === '') return 'Selecciona tu país.';
+    return '';
+  },
 
-  // ✏️ TODO 4 — phone: regla de dominio según el país elegido.
-  //    US   → +1 seguido de 10 dígitos      (/^\+1\d{10}$/)
-  //    ES   → +34 seguido de 9 dígitos, que empiezan con 6, 7, 8 o 9 (/^\+34[6-9]\d{8}$/)
-  //    BOTH → acepta cualquiera de los dos
-  //    Pistas: quita espacios antes de probar → value.replace(/\s/g, '')
-  //            el país está en document.getElementById('country').value
+  phone: (value) => {
+    const country = document.getElementById('country').value;
+    if (value.trim() === '') return 'Indica tu teléfono.';
+    if (country === '') return 'Selecciona tu país antes de indicar el teléfono.';
+    const cleanedValue = value.replace(/\s/g, '');
+    if (country === 'US' && !/^\+1\d{10}$/.test(cleanedValue)) return 'El teléfono debe ser +1 seguido de 10 dígitos.';
+    if (country === 'ES' && !/^\+34[6-9]\d{8}$/.test(cleanedValue)) return 'El teléfono debe ser +34 seguido de 9 dígitos que empiecen con 6, 7, 8 o 9.';
+    if (country === 'BOTH' && !(/^\+1\d{10}$/.test(cleanedValue) || /^\+34[6-9]\d{8}$/.test(cleanedValue))) return 'El teléfono debe ser válido para US o ES.';
+    return '';
+  },
 
-  // ✏️ TODO 5 — monthlyOrders: obligatorio, número entero y mínimo 100.
-  //    Pista: Number(value), Number.isInteger(...)
+  monthlyOrders: (value) => {
+    if (value.trim() === '') return 'Indica la cantidad de pedidos mensuales.';
+    const number = Number(value);
+    if (!Number.isInteger(number)) return 'El valor debe ser un número entero.';
+    if (number < 100) return 'El valor mínimo es 100.';
+    return '';
+  },
 
-  // ✏️ TODO 6 — returnRate: obligatorio, entre 0 y 100.
+  returnRate: (value) => {
+    if (value.trim() === '') return 'Indica el porcentaje de devoluciones.';
+    const number = Number(value);
+    if (isNaN(number)) return 'El valor debe ser un número.';
+    if (number < 0 || number > 100) return 'El valor debe estar entre 0 y 100.';
+    return '';
+  },
 
-  // ✏️ TODO 7 — warehouse: debe elegir una opción.
+  warehouse: (value) => {
+    if (value.trim() === '') return 'Selecciona tu almacén.';
+    return '';
+  },
 
-  // ✏️ TODO 8 — startDate: obligatoria y en el futuro (posterior a hoy).
-  //    Pista: new Date(value) > new Date()
-
-  // ✏️ TODO 9 — message: opcional, pero máximo 500 caracteres.
+  startDate: (value) => {
+    if (value.trim() === '') return 'Indica la fecha de inicio.';
+    const date = new Date(value + 'T00:00');
+    if (date <= new Date()) return 'La fecha debe ser posterior a hoy.';
+    return '';
+  },
+ 
+  message: (value) => {
+    if (value.length > 500) return 'El mensaje no puede superar los 500 caracteres.';
+    return '';
+  },
 };
 
 // ---------- Validar un campo ----------
