@@ -44,7 +44,7 @@ companyName: (value) => {
 
   website: (value) => {
     if (value.trim() === '') return '';
-    if (!value.startsWith('http://') && !value.startsWith('https://')) return 'La URL debe empezar con http:// o https://';
+    if (!value.startsWith('http://') && !value.startsWith('https://')) return 'Si incluyes sitio web, debe ser una URL válida';
     return '';
   },
 
@@ -69,8 +69,8 @@ companyName: (value) => {
   },
 
   comments: (value) => {
-    if (value.length > 500) return 'Los comentarios no pueden exceder 500 caracteres';
-    return `Quedan ${500 - value.length} caracteres.`;
+    if (value.length > 500) return `Los comentarios no pueden exceder 500 caracteres (quedan ${500 - value.length})`;
+    return '';
   }
 };
 
@@ -94,6 +94,28 @@ function validateServices() {
   const errorElement = document.getElementById('services-error');
   if (checked === 0) {
     errorElement.textContent = 'Selecciona al menos un servicio de interés';
+    return false;
+  }
+  errorElement.textContent = '';
+  return true;
+}
+
+function validateCurrentProvider() {
+  const checked = form.querySelectorAll('input[name="currentProvider"]:checked').length;
+  const errorElement = document.getElementById('currentProvider-error');
+  if (checked === 0) {
+    errorElement.textContent = 'Indica si actualmente trabajas con otro proveedor logístico';
+    return false;
+  }
+  errorElement.textContent = '';
+  return true;
+}
+  
+function validatePrivacy() {
+  const checked = document.getElementById('privacy').checked;
+  const errorElement = document.getElementById('privacy-error');
+  if (!checked) {
+    errorElement.textContent = 'Debes aceptar la política de privacidad para continuar';
     return false;
   }
   errorElement.textContent = '';
@@ -125,6 +147,8 @@ form.addEventListener('submit', (event) => {
     if (!validateField(field)) isValid = false;
   });
   if (!validateServices()) isValid = false;
+  if (!validateCurrentProvider()) isValid = false;
+  if (!validatePrivacy()) isValid = false;
 
   if (!isValid) {
     // Lleva el foco al primer campo con error (accesibilidad por teclado)
@@ -137,9 +161,10 @@ form.addEventListener('submit', (event) => {
   successMessage.focus();
 });
 
-
 form.addEventListener('reset', () => {
   fields.forEach((field) => clearError(field));
   document.getElementById('services-error').textContent = '';
+  document.getElementById('currentProvider-error').textContent = '';
+  document.getElementById('privacy-error').textContent = '';
   successMessage.classList.add('hidden');
 });
