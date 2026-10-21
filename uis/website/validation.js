@@ -121,10 +121,16 @@ function validateField(field) {
   return true;
 }
 
-// ✏️ TODO 10 — Servicios: al menos un checkbox marcado.
-//    Escribe una función validateServices() que devuelva true/false
-//    y muestre el error en el <p id="services-error">.
-//    Pista: form.querySelectorAll('input[name="services"]:checked').length
+function validateServices() {
+  const checked = form.querySelectorAll('input[name="services"]:checked').length;
+  const errorElement = document.getElementById('services-error');
+  if (checked === 0) {
+    errorElement.textContent = 'Selecciona al menos un servicio.';
+    return false;
+  }
+  errorElement.textContent = '';
+  return true;
+}
 
 // ---------- Validación en tiempo real ----------
 
@@ -140,8 +146,11 @@ fields.forEach((field) => {
   });
 });
 
-// ✏️ TODO 11 — Cuando cambie el país, re-valida el teléfono si ya tiene algo escrito.
-//    Pista: escucha el evento 'change' de #country.
+const countryField = document.getElementById('country');
+countryField.addEventListener('change', () => {
+  const phoneField = document.getElementById('phone');
+  if (phoneField.value.trim() !== '') validateField(phoneField);
+});
 
 // ---------- Envío ----------
 
@@ -153,7 +162,7 @@ form.addEventListener('submit', (event) => {
   fields.forEach((field) => {
     if (!validateField(field)) isValid = false;
   });
-  // ✏️ TODO 10 (parte 2): suma aquí validateServices()
+  if (!validateServices()) isValid = false;
 
   if (!isValid) {
     // Lleva el foco al primer campo con error (accesibilidad por teclado)
@@ -161,13 +170,14 @@ form.addEventListener('submit', (event) => {
     return;
   }
 
-  // Primero reset y después mostrar el éxito: form.reset() dispara el evento 'reset' (TODO 12),
-  // que oculta el mensaje de éxito. En el orden inverso, el mensaje se ocultaría al instante.
   form.reset();
   successMessage.classList.remove('hidden');
   successMessage.focus();
 });
 
-// ✏️ TODO 12 — Botón "Limpiar formulario": al hacer reset, borra también
-//    todos los mensajes de error y oculta el mensaje de éxito.
-//    Pista: escucha el evento 'reset' del form y usa clearError() en cada campo.
+
+form.addEventListener('reset', () => {
+  fields.forEach((field) => clearError(field));
+  document.getElementById('services-error').textContent = '';
+  successMessage.classList.add('hidden');
+});
