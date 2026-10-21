@@ -1,13 +1,11 @@
 // =========================================================
 // Validación del formulario de solicitud de propuesta — TrackFlow
-// Reglas documentadas en README.md (tabla "Campos del formulario").
 // =========================================================
 
 const form = document.getElementById('proposal-form');
 const successMessage = document.getElementById('form-success');
 
 // ---------- Mostrar / limpiar errores ----------
-// Cada campo tiene un <p id="<idDelCampo>-error"> debajo, donde va el mensaje.
 
 function showError(field, message) {
   const errorElement = document.getElementById(`${field.id}-error`);
@@ -146,11 +144,11 @@ commentsField.addEventListener('input', () => {
 });
 
 // ---------- Advertencia de volumen bajo ----------
-const volumeField = document.getElementById('volume');
+const volumeField = document.getElementById('shippingVolume');
 const volumeWarning = document.getElementById('volume-warning');
 
 volumeField.addEventListener('change', () => {
-  if (volumeField.value === 'low') {
+  if (volumeField.value === '0-100') {
     volumeWarning.classList.remove('hidden');
   } else {
     volumeWarning.classList.add('hidden');
@@ -187,4 +185,6 @@ form.addEventListener('reset', () => {
   document.getElementById('currentProvider-error').textContent = '';
   document.getElementById('privacy-error').textContent = '';
   successMessage.classList.add('hidden');
+  commentsCounter.textContent = 'Quedan 500 caracteres';
+  volumeWarning.classList.add('hidden');
 });
