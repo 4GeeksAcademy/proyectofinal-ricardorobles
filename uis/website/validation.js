@@ -26,84 +26,52 @@ function clearError(field) {
 // o el mensaje de error si no lo es.
 
 const validators = {
-  // ✅ Ejemplos resueltos (fieldset "Datos de contacto")
-  contactName: (value) => {
-    if (value.trim() === '') return 'Escribe tu nombre y apellido.';
-    if (value.trim().length < 3) return 'El nombre debe tener al menos 3 caracteres.';
-    return '';
-  },
+companyName: (value) => {
+  if (value.trim().length < 2) return 'El nombre de la empresa debe tener al menos 2 caracteres';
+  return '';
+},
 
-  contactRole: (value) => {
-    if (value.trim() === '') return 'Indica tu cargo en la empresa.';
+  contactPerson: (value) => {
+    if (value.trim().split(/\s+/).length < 2) return 'Ingresa nombre y apellido del contacto';
     return '';
   },
 
   email: (value) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (value.trim() === '') return 'Escribe tu email.';
-    if (!emailPattern.test(value)) return 'El email no es válido. Ejemplo: nombre@empresa.com';
-    return '';
-  },
-
-  brandName: (value) => {
-    if (value.trim() === '') return 'Indica el nombre de tu marca.';
+    if (!emailPattern.test(value)) return 'Ingresa un email corporativo válido (ejemplo: nombre@empresa.com)';
     return '';
   },
 
   website: (value) => {
-    if (value.trim() === '') return 'Indica la URL de tu sitio web.';
+    if (value.trim() === '') return '';
     if (!value.startsWith('http://') && !value.startsWith('https://')) return 'La URL debe empezar con http:// o https://';
     return '';
   },
 
   country: (value) => {
-    if (value.trim() === '') return 'Selecciona tu país.';
+    if (value.trim() === '') return 'Selecciona el país de operación principal';
     return '';
   },
 
   phone: (value) => {
-    const country = document.getElementById('country').value;
-    if (value.trim() === '') return 'Indica tu teléfono.';
-    if (country === '') return 'Selecciona tu país antes de indicar el teléfono.';
-    const cleanedValue = value.replace(/\s/g, '');
-    if (country === 'US' && !/^\+1\d{10}$/.test(cleanedValue)) return 'El teléfono debe ser +1 seguido de 10 dígitos.';
-    if (country === 'ES' && !/^\+34[6-9]\d{8}$/.test(cleanedValue)) return 'El teléfono debe ser +34 seguido de 9 dígitos que empiecen con 6, 7, 8 o 9.';
-    if (country === 'BOTH' && !(/^\+1\d{10}$/.test(cleanedValue) || /^\+34[6-9]\d{8}$/.test(cleanedValue))) return 'El teléfono debe ser válido para US o ES.';
+    if (value.trim().match(/^\+\d{1,3}[\s\d]{6,}$/) === null) return 'El teléfono debe incluir código de país (ejemplo: +1 213 555 0147)';
+    return '';
+  },
+  
+  productType: (value) => {
+    if (value.trim() === '') return 'Selecciona el tipo de producto que manejas';
+    return '';
+  },
+  
+  shippingVolume: (value) => {
+    if (value.trim() === '') return 'Selecciona el volumen mensual estimado';
     return '';
   },
 
-  monthlyOrders: (value) => {
-    if (value.trim() === '') return 'Indica la cantidad de pedidos mensuales.';
-    const number = Number(value);
-    if (!Number.isInteger(number)) return 'El valor debe ser un número entero.';
-    if (number < 100) return 'El valor mínimo es 100.';
-    return '';
-  },
-
-  returnRate: (value) => {
-    if (value.trim() === '') return 'Indica el porcentaje de devoluciones.';
-    const number = Number(value);
-    if (isNaN(number)) return 'El valor debe ser un número.';
-    if (number < 0 || number > 100) return 'El valor debe estar entre 0 y 100.';
-    return '';
-  },
-
-  warehouse: (value) => {
-    if (value.trim() === '') return 'Selecciona tu almacén.';
-    return '';
-  },
-
-  startDate: (value) => {
-    if (value.trim() === '') return 'Indica la fecha de inicio.';
-    const date = new Date(value + 'T00:00');
-    if (date <= new Date()) return 'La fecha debe ser posterior a hoy.';
-    return '';
-  },
- 
-  message: (value) => {
-    if (value.length > 500) return 'El mensaje no puede superar los 500 caracteres.';
-    return '';
-  },
+  comments: (value) => {
+    if (value.length > 500) return 'Los comentarios no pueden exceder 500 caracteres';
+    return `Quedan ${500 - value.length} caracteres.`;
+  }
 };
 
 // ---------- Validar un campo ----------
@@ -125,7 +93,7 @@ function validateServices() {
   const checked = form.querySelectorAll('input[name="services"]:checked').length;
   const errorElement = document.getElementById('services-error');
   if (checked === 0) {
-    errorElement.textContent = 'Selecciona al menos un servicio.';
+    errorElement.textContent = 'Selecciona al menos un servicio de interés';
     return false;
   }
   errorElement.textContent = '';
@@ -134,7 +102,7 @@ function validateServices() {
 
 // ---------- Validación en tiempo real ----------
 
-const fields = form.querySelectorAll('input:not([type="checkbox"]), select, textarea');
+const fields = form.querySelectorAll('input:not([type="checkbox"]):not([type="radio"]), select, textarea');
 
 fields.forEach((field) => {
   // Al salir del campo: valida siempre
@@ -144,12 +112,6 @@ fields.forEach((field) => {
   field.addEventListener('input', () => {
     if (field.getAttribute('aria-invalid') === 'true') validateField(field);
   });
-});
-
-const countryField = document.getElementById('country');
-countryField.addEventListener('change', () => {
-  const phoneField = document.getElementById('phone');
-  if (phoneField.value.trim() !== '') validateField(phoneField);
 });
 
 // ---------- Envío ----------
