@@ -1,0 +1,15 @@
+{
+  "name": "@repo/trackflow-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Lógica de dominio de TrackFlow: inventario, envíos, transportistas y validaciones (Hito 2)",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "demo": "tsx src/demo.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.0"
+  }
+}
