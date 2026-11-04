@@ -6,12 +6,13 @@ Basado en la plantilla de 4Geeks. **No se crean árboles paralelos**: antes de c
 
 | Ruta | Qué va aquí | Estado |
 |---|---|---|
-| `uis/website/` | Sitio web público de TrackFlow (vista de entrada en `/`) | Existe desde el Hito 1 (rama `hito-1-website`, PR #1) |
+| `uis/website/` | Sitio web público de TrackFlow (vista de entrada en `/`) | Existe desde el Hito 1 (PR #1, mergeado) |
+| `packages/trackflow-core/` | Lógica de dominio en TypeScript (Hito 2): modelos, búsquedas, costos, selección de transportista, reportes y validaciones. Reutilizable por `uis/backoffice` y `services/` | Existe desde el Hito 2 (rama `feature/domain-models`) |
 | `uis/backoffice/` | App interna de la empresa: layout propio, separada del sitio público; vista de entrada en `/` | Aún no existe |
 | `services/` | Backend: **una sola API FastAPI centralizada** con routers por dominio (inventario, tracking, devoluciones…). Workers aparte solo si hace falta | Aún no existe |
 | `agents/` | Agentes de IA **del producto** (ej. agente de CX). Empezar desde `agents/_template/` | Vacío |
 | `skills/` | Skills **del producto** para esos agentes | Solo plantilla |
-| `data/`, `mcps/`, `workflows/`, `packages/`, `shared/`, `docs/`, `infra/`, `scripts/`, `internal/` | Según su README | Vacías |
+| `data/`, `mcps/`, `workflows/`, `shared/`, `docs/`, `infra/`, `scripts/`, `internal/` | Según su README | Vacías |
 
 ### `.agents/` no es `agents/`
 
@@ -23,6 +24,7 @@ Basado en la plantilla de 4Geeks. **No se crean árboles paralelos**: antes de c
 - **Website (Hito 1):** HTML5 semántico + **Tailwind CSS v4 por CDN** + JavaScript vanilla (`validation.js`). Sin build, sin framework, sin backend: el envío del formulario es simulado.
 - Ejecutar en local: `npx http-server uis/website -p 3000 -a 0.0.0.0`
 - SEO: metadatos y Schema.org en `index.html`.
+- **Lógica de dominio (Hito 2):** TypeScript estricto en `packages/trackflow-core`, ejecutado con `tsx`. Comandos: `npm install`, `npm run typecheck`, `npm run demo` (dentro de la carpeta del paquete).
 
 ## Stack previsto (según la plantilla y el devcontainer)
 
@@ -39,6 +41,9 @@ Basado en la plantilla de 4Geeks. **No se crean árboles paralelos**: antes de c
 3. **Una sola API** en `services/` en vez de microservicios desde el inicio (recomendación de la plantilla).
 4. **El briefing manda:** campos, servicios, áreas y nombres salen de `BRIEFING.md` y de los briefings por hito (`01-web-fundamentals/…`). No se inventan datos de la empresa.
 5. **Flujo con PR:** cada hito en su rama, PR contra `main`. PR aprobado → merge a `main` antes de empezar la siguiente rama.
+6. **Hito 2 como paquete:** el README del hito pide `src/types` y `src/utils`; para no crear un `src/` suelto en la raíz, vive en `packages/trackflow-core/src/…`. Los modelos quedan ahí por ahora; se moverán a `packages/shared` (`@repo/shared-types`) cuando otra app los necesite.
+7. **npm en `packages/trackflow-core`:** se usa npm (con `package-lock.json`) porque el hito documenta comandos `npm run …` y aún no hay workspace de pnpm en la raíz. Se revisa cuando se configure el workspace.
+8. **Selección de transportista con restricciones duras:** antes de comparar costos se descartan los transportistas que no pueden hacer el envío (país, peso, prioridad, frágiles). Detalle en el README del paquete.
 
 ## Restricciones
 
