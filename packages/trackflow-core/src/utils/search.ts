@@ -21,7 +21,12 @@ export function findProductBySKU(products: Product[], sku: string): Product | nu
 // TODO 5: búsqueda lineal de un envío por id (comparación exacta).
 // Pista: misma estructura que la de arriba, sin normalizar mayúsculas.
 export function findShipmentById(shipments: Shipment[], id: string): Shipment | null {
-  throw new Error("TODO: findShipmentById");
+  for (const shipment of shipments) {
+    if (shipment.id === id) {
+      return shipment;
+    }
+  }
+  return null;
 }
 
 // TODO 6: búsqueda binaria por peso. El array YA viene ordenado por weightKg ascendente.
@@ -35,5 +40,21 @@ export function findShipmentById(shipments: Shipment[], id: string): Shipment | 
 //   - Si el ciclo termina sin encontrarlo → return -1.
 // Cada vuelta descarta la MITAD del array → O(log n). Con 2.000 productos son ~11 vueltas, no 2.000.
 export function binarySearchProductByWeight(sortedProducts: Product[], targetWeight: number): number {
-  throw new Error("TODO: binarySearchProductByWeight");
+  let low = 0;
+  let high = sortedProducts.length - 1; // con [] queda en -1 y el while no entra → -1
+
+  while (low <= high) {
+    const mid = Math.floor((low + high) / 2);
+    const midWeight = sortedProducts[mid].weightKg;
+
+    if (midWeight === targetWeight) {
+      return mid;
+    }
+    if (midWeight < targetWeight) {
+      low = mid + 1; // el objetivo está a la derecha
+    } else {
+      high = mid - 1; // el objetivo está a la izquierda
+    }
+  }
+  return -1;
 }
