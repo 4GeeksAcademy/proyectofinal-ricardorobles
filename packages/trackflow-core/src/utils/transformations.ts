@@ -47,7 +47,24 @@ export function calculateShippingCost(shipment: Shipment, product: Product, carr
 // Devuelve roundTo2(total).
 // Sugerencia: let score = 0; y un if por criterio. Es legible y fácil de revisar contra el briefing.
 export function scoreCarrierForShipment(carrier: Carrier, shipment: Shipment, product: Product): number {
-  throw new Error("TODO: scoreCarrierForShipment");
+  const totalWeight = product.weightKg * shipment.quantity;
+  let score = 0;
+
+  if (carrier.operatesIn.includes(shipment.destination.country)) {
+    score += 20;
+  }
+  if (totalWeight <= carrier.maxWeightKg) {
+    score += 20;
+  }
+  if (carrier.acceptsPriority.includes(shipment.priority)) {
+    score += 15;
+  }
+  if (!product.isFragile || carrier.handlesFragile) {
+    score += 15;
+  }
+  score += carrier.onTimeRate * 0.3;
+
+  return roundTo2(score);
 }
 
 // TODO 8 (decisión acordada con el negocio): RESTRICCIONES DURAS.
@@ -57,7 +74,13 @@ export function scoreCarrierForShipment(carrier: Carrier, shipment: Shipment, pr
 // UPS gana un envío a Madrid aunque no opera en España.
 // Pista: son las mismas 4 condiciones del TODO 7, unidas con &&.
 export function canHandleShipment(carrier: Carrier, shipment: Shipment, product: Product): boolean {
-  throw new Error("TODO: canHandleShipment");
+  const totalWeight = product.weightKg * shipment.quantity;
+  return (
+    carrier.operatesIn.includes(shipment.destination.country) &&
+    totalWeight <= carrier.maxWeightKg &&
+    carrier.acceptsPriority.includes(shipment.priority) &&
+    (!product.isFragile || carrier.handlesFragile)
+  );
 }
 
 // TODO 9: elegir el mejor transportista.
@@ -67,32 +90,76 @@ export function canHandleShipment(carrier: Carrier, shipment: Shipment, product:
 // Pista: puedes recorrerlos con un for, calcular score y cost de cada uno,
 // y guardar en una variable `best: CarrierSelection | null` el mejor visto hasta ahora.
 export function selectBestCarrier(carriers: Carrier[], shipment: Shipment, product: Product): CarrierSelection | null {
-  throw new Error("TODO: selectBestCarrier");
+  let best: CarrierSelection | null = null;
+
+  for (const carrier of carriers) {
+    if (!canHandleShipment(carrier, shipment, product)) {
+      continue; // restricción dura: si no puede hacer el envío, ni se compara
+    }
+    const score = scoreCarrierForShipment(carrier, shipment, product);
+    if (score < 50) {
+      continue;
+    }
+    const cost = calculateShippingCost(shipment, product, carrier);
+
+    const isCheaper = best === null || cost < best.cost;
+    const tieButBetterScore = best !== null && cost === best.cost && score > best.score;
+    if (isCheaper || tieButBetterScore) {
+      best = { carrier, score, cost };
+    }
+  }
+
+  return best;
 }
 
 // TODO 10: conteo por categoría, con TODAS las categorías aunque tengan 0.
 // Pista: parte de un objeto con las 5 claves en 0 y suma 1 por cada producto:
 //   const counts: Record<ProductCategory, number> = { Fashion: 0, Electronics: 0, ... };
 export function countProductsByCategory(products: Product[]): Record<ProductCategory, number> {
-  throw new Error("TODO: countProductsByCategory");
+  const counts: Record<ProductCategory, number> = {
+    Fashion: 0,
+    Electronics: 0,
+    Cosmetics: 0,
+    Home: 0,
+    Other: 0,
+  };
+  for (const product of products) {
+    counts[product.category] += 1;
+  }
+  return counts;
 }
 
 // TODO 11: valor total del inventario = suma de (stockQuantity * unitCostUSD). roundTo2.
 // Pista: reduce((total, product) => total + ..., 0). El 0 inicial hace que [] devuelva 0.
 export function calculateTotalInventoryValue(products: Product[]): number {
-  throw new Error("TODO: calculateTotalInventoryValue");
+  const total = products.reduce((sum, product) => sum + product.stockQuantity * product.unitCostUSD, 0);
+  return roundTo2(total);
 }
 
 // TODO 12: distancia promedio de los envíos (destination.distanceKm). roundTo2.
 // ⚠️ Caso límite: con [] la división da 0 / 0 = NaN. Decisión: devolver 0.
 export function calculateAverageShipmentDistance(shipments: Shipment[]): number {
-  throw new Error("TODO: calculateAverageShipmentDistance");
+  if (shipments.length === 0) {
+    return 0; // evita 0 / 0 = NaN
+  }
+  const totalDistance = shipments.reduce((sum, shipment) => sum + shipment.destination.distanceKm, 0);
+  return roundTo2(totalDistance / shipments.length);
 }
 
 // TODO 13: agrupar envíos por estado, con TODOS los estados aunque queden en [].
 // Pista: mismo patrón que el TODO 10, pero cada clave parte con [] y haces push.
 export function groupShipmentsByStatus(shipments: Shipment[]): Record<ShipmentStatus, Shipment[]> {
-  throw new Error("TODO: groupShipmentsByStatus");
+  const groups: Record<ShipmentStatus, Shipment[]> = {
+    Pending: [],
+    Assigned: [],
+    "In transit": [],
+    Delivered: [],
+    Failed: [],
+  };
+  for (const shipment of shipments) {
+    groups[shipment.status].push(shipment);
+  }
+  return groups;
 }
 
 // TODO 14: los N transportistas más usados.
@@ -103,5 +170,17 @@ export function groupShipmentsByStatus(shipments: Shipment[]): Record<ShipmentSt
 // Pista: para contar sin saber de antemano los nombres, usa un Record<string, number>
 // o un Map<string, number>, y después conviértelo en un array de { carrier, count }.
 export function findTopCarriers(shipments: Shipment[], topN: number): CarrierUsage[] {
-  throw new Error("TODO: findTopCarriers");
+  const counts: Record<string, number> = {};
+
+  for (const shipment of shipments) {
+    if (shipment.carrier === null) {
+      continue;
+    }
+    counts[shipment.carrier] = (counts[shipment.carrier] ?? 0) + 1;
+  }
+
+  return Object.entries(counts)
+    .map(([carrier, count]) => ({ carrier, count }))
+    .sort((a, b) => b.count - a.count || a.carrier.localeCompare(b.carrier))
+    .slice(0, topN);
 }
